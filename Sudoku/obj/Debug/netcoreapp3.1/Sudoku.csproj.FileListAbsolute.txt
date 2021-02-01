@@ -1,0 +1,17 @@
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.exe
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.deps.json
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.runtimeconfig.json
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.runtimeconfig.dev.json
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.dll
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\bin\Debug\netcoreapp3.1\Sudoku.pdb
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.csprojAssemblyReference.cache
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\App.g.cs
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku_MarkupCompile.cache
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku_MarkupCompile.lref
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.g.resources
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.AssemblyInfoInputs.cache
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.AssemblyInfo.cs
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.dll
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Sudoku.pdb
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Views\MainWindow.g.cs
+C:\Users\KukucCZ\OneDrive\Programování\C#\Win\Sudoku\Sudoku\obj\Debug\netcoreapp3.1\Views\MainWindow.baml
