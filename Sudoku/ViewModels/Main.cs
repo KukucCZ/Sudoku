@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sudoku.Models;
+using Sudoku.Views;
 
 namespace Sudoku.ViewModels
 {
@@ -11,7 +12,10 @@ namespace Sudoku.ViewModels
         public Main()
         {
             solver = new Solver(new Validator(new Grid()));
-            solver.solve();
+            solver.solveAll(true, true, 2);
+            //solver.removeHidden(2, 8, 4);
+            MainWindow main = new MainWindow();
+            main.Show();
         }
     }
 }
