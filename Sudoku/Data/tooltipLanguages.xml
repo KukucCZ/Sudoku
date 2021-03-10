@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content>
+  <!--USED FOR COUNTING LANGUAGES-->
+  <languages id="LANGUAGES">
+    <language>English</language>
+    <language>Čeština</language>
+  </languages>
+  <!--BUTTONS-->
+  <languages id="CONTINUE_BUTTON">
+    <language>Continue with your last sudoku session!</language>
+    <language>Pokračovat v minulém sudoku!</language>
+  </languages>
+  <languages id="PLAY_BUTTON">
+    <language>Set a difficulty and play new sudoku</language>
+    <language>Nastav si obtížnost a zahrej si nové sudoku</language>
+  </languages>
+  <languages id="SOLVE_BUTTON">
+    <language>Let program solve your sudoku</language>
+    <language>Nech program vyřešit tvoje sudoku</language>
+  </languages>
+  <languages id="LANGUAGE_BUTTON">
+    <language>Změnit jazyk na češtinu</language>
+    <language>Change language to english</language>
+  </languages>
+  <languages id="EXIT_BUTTON">
+    <language>Exit application</language>
+    <language>Odejít z aplikace</language>
+  </languages>
+  <languages id="GENERATE_BUTTON">
+    <language>Generate a new sudoku from your settings</language>
+    <language>Vygeneruje nové sudoku podle zadané obtížnosti</language>
+  </languages>
+  <languages id="SAVE_BUTTON">
+    <language>Save your progression</language>
+    <language>Ulož si svůj postup</language>
+  </languages>
+  <languages id="SURRENDER_BUTTON">
+    <language>you coward...</language>
+    <language>zbabělče...</language>
+  </languages>
+  <languages id="BACK_BUTTON">
+    <language>Previous step</language>
+    <language>Předchozí krok</language>
+  </languages>
+  <languages id="NEXT_BUTTON">
+    <language>Next step</language>
+    <language>Následující krok</language>
+  </languages>
+  <languages id="STEPS_BUTTON">
+    <language>Shows steps of a solution</language>
+    <language>Ukáže kroky ke správnému řešení</language>
+  </languages>
+  <languages id="ISCORRECT_BUTTON">
+    <language>Shows incorrect numbers</language>
+    <language>Označí nesprávně zadaná čísla</language>
+  </languages>
+  <languages id="SHOWNEXT_BUTTON">
+    <language>GOOGLE TRANSLATE Marks a cell into which a number can be written </language>
+    <language>Označí pole, do kterého lze napsat číslici</language>
+  </languages>
+  <languages id="SOLVENEXT_BUTTON">
+    <language>GOOGLE TRANSLATE Adds a digit to the field in which the digit could be added</language>
+    <language>Doplní číslici do pole, do kterého šlo doplnit číslici</language>
+  </languages>
+  <languages id="SOLVEALL_BUTTON">
+    <language>Shows a solution with steps</language>
+    <language>Ukáže řešení s kroky</language>
+  </languages>
+  <!--LABELS-->
+  <languages id="DIFFICULTY_LABEL">
+    <language>Leave</language>
+    <language>Zpět</language>
+  </languages>
+  <languages id="HINTS_LABEL">
+    <language>Hints can help you, if you are stuck</language>
+    <language>Nápověda pomůže, když se zasekneš</language>
+  </languages>
+  <languages id="NEXTCELL_LABEL">
+    <language>GOOGLE TRANSLATE Marks a cell into which a number can be written </language>
+    <language>Označí pole, do kterého lze napsat číslici</language>
+  </languages>
+  <languages id="ISCORRECT_LABEL">
+    <language>Shows incorrect numbers</language>
+    <language>Označí nesprávně zadaná čísla</language>
+  </languages>
+</content>
