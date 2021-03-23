@@ -1,0 +1,106 @@
+﻿<Page x:Class="Sudoku.Views.StepsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sudoku.Views"
+      xmlns:vm="clr-namespace:Sudoku.ViewModels"
+      xmlns:ot="clr-namespace:Sudoku.Other"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance Type=vm:Main}"
+      Title="StepsPage"
+      >
+
+    <Page.Resources>
+        <vm:Main x:Key="MainViewModel"/>
+        <ot:GridConverter x:Key="GridConverter"/>
+    </Page.Resources>
+
+    <Grid Margin="50,50,50,50">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="350" Width="2*"/>
+            <ColumnDefinition MinWidth="50" Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="playGrid" Grid.Column="0" Grid.Row="0" Style="{DynamicResource StepsGrid}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="0"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="4"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="8"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="12"/>
+
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="0"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="4"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="8"/>
+            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="12"/>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="45"/>
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            
+            <Border Style="{DynamicResource LabelBorder}" Width="auto" Margin="5,0" Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Label  Content="{Binding DifficultySolved}"/>
+                    <Label Content=" "/>
+                    <Label  Content="{Binding ContentLanguage[DIFFICULTY_LABEL]}"   ToolTip="{Binding TooltipLanguage[DIFFICULTY_LABEL]}"/>
+                </StackPanel>
+            </Border>
+            <ListBox  HorizontalContentAlignment="Center" Grid.Row="1" ItemsSource="{Binding StepsList}" SelectedItem="{Binding IndexStepsList}" Margin="5,5" Background="{DynamicResource ColorPrimary}" BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label HorizontalAlignment="Center" Content="{Binding Path=Count}" />
+                            <Label Content=" "/>
+                            <Label Content="{Binding Path=DataContext.ContentLanguage[STEP_LABEL], RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MainWindow}}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="{Binding ContentLanguage[BACK_BUTTON]}" ToolTip="{Binding TooltipLanguage[BACK_BUTTON]}" Width="70"/>
+                <Button Content="{Binding ContentLanguage[NEXT_BUTTON]}" ToolTip="{Binding TooltipLanguage[NEXT_BUTTON]}" Width="70"/>
+            </StackPanel>-->
+            <Button Grid.Row="2" Content="{Binding ContentLanguage[LEAVE_BUTTON]}" ToolTip="{Binding TooltipLanguage[LEAVE_BUTTON]}" Command="{Binding LeaveStepsPageCommand}"/>
+        </Grid>
+
+    </Grid>
+</Page>

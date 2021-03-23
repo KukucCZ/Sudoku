@@ -1,0 +1,88 @@
+﻿<Page x:Class="Sudoku.Views.SolvePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sudoku.Views"
+      xmlns:vm="clr-namespace:Sudoku.ViewModels"
+      xmlns:ot="clr-namespace:Sudoku.Other"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance Type=vm:Main}"
+      Title="SolvePage"
+      >
+
+    <Page.Resources>
+        <vm:Main x:Key="MainViewModel"/>
+        <ot:GridConverter x:Key="GridConverter"/>
+    </Page.Resources>
+    
+    <Grid Margin="30,0">
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="400"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition MinWidth="50" Width="*"/>
+            <ColumnDefinition MinWidth="350" Width="2*"/>
+            <ColumnDefinition MinWidth="50" Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="0">
+            <Grid x:Name="playGrid" Width="500" Height="500" Style="{DynamicResource PlayGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="0"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="4"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="8"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="12"/>
+
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="0"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="4"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="8"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="12"/>
+            </Grid>
+        </Viewbox>
+
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="10,50,0,0">
+            <Button Content="{Binding ContentLanguage[LEAVE_BUTTON]}"       ToolTip="{Binding TooltipLanguage[LEAVE_BUTTON]}" Command="{Binding ChangePageCommand}" CommandParameter="MainMenu"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Vertical" Margin="10,50,0,0">
+            <Button Content="{Binding ContentLanguage[ISCORRECT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[ISCORRECT_BUTTON]}" Command="{Binding IsCorrectCommand}" CommandParameter="unlimited"/>
+            <Button Content="{Binding ContentLanguage[SHOWNEXT_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SHOWNEXT_BUTTON]}" Command="{Binding ShowNextCommand}" CommandParameter="unlimited"/>
+            <Button Content="{Binding ContentLanguage[SOLVENEXT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[SOLVENEXT_BUTTON]}" Command="{Binding SolveNextCommand}" CommandParameter="unlimited"/>
+            <Button Grid.Row="2" Content="{Binding ContentLanguage[CLEARHINTS_BUTTON]}"   ToolTip="{Binding TooltipLanguage[CLEARHINTS_BUTTON]}" Command="{Binding ClearHintsCommand}"/>
+            <Button Content="{Binding ContentLanguage[SOLVEALL_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SOLVEALL_BUTTON]}"    Command="{Binding SolveAllCommand}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

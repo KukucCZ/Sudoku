@@ -1,0 +1,50 @@
+﻿<Page x:Class="Sudoku.Views.PlayWinPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Sudoku.Views"
+      xmlns:vm="clr-namespace:Sudoku.ViewModels"
+      xmlns:ot="clr-namespace:Sudoku.Other"
+      mc:Ignorable="d" 
+      d:DataContext="{d:DesignInstance Type=vm:Main}"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PlayWinPage">
+
+    <Page.Resources>
+        <ot:TimeConverter x:Key="TimeConverter"/>
+    </Page.Resources>
+    
+    <StackPanel HorizontalAlignment="Center">
+        <StackPanel.Resources>
+            <Style x:Key="Outline" TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{DynamicResource ColorSecondaryDark}"/>
+                <Setter Property="FontSize" Value="105"/>
+            </Style>
+            <Style x:Key="Main" TargetType="{x:Type Label}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="{DynamicResource ColorSecondary}"/>
+                <Setter Property="FontSize" Value="105"/>
+                <Setter Property="Padding" Value="0,10,15,0"/>
+            </Style>
+        </StackPanel.Resources>
+        <Grid>
+            <Label Style="{StaticResource Outline}" Content="YOU WON!"/>
+            <Label Style="{StaticResource Main}" Content="YOU WON!"/>
+        </Grid>
+        <Border Style="{DynamicResource LabelBorder}">
+            <StackPanel >
+                <Label Content="{Binding Time, Converter={StaticResource TimeConverter}}"/>
+                <Label Content="{Binding IsCorrectUsed}"/>
+                <Label Content="{Binding ShowNextUsed}"/>
+                <Label Content="{Binding SolveNextUsed}"/>
+            </StackPanel>
+        </Border>
+        <Button Width="150" VerticalAlignment="Bottom" Content="{Binding ContentLanguage[LEAVE_BUTTON]}" Command="{Binding LeaveStepsPageCommand}"/>
+    </StackPanel>
+</Page>
