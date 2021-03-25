@@ -1,4 +1,4 @@
-﻿<Page x:Class="Sudoku.Views.PlayWinPage"
+﻿<Page x:Class="Sudoku.Views.PlayLosePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
       mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance Type=vm:Main}"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PlayWinPage">
+      Title="PlayLosePage">
 
     <Page.Resources>
         <ot:TimeConverter x:Key="TimeConverter"/>
@@ -34,8 +34,8 @@
             </Style>
         </StackPanel.Resources>
         <Grid>
-            <Label Style="{StaticResource Outline}" Content="{Binding ContentLanguage[WIN_LABEL]}"/>
-            <Label Style="{StaticResource Main}" Content="{Binding ContentLanguage[WIN_LABEL]}"/>
+            <Label Style="{StaticResource Outline}" Content="{Binding ContentLanguage[LOSE_LABEL]}"/>
+            <Label Style="{StaticResource Main}" Content="{Binding ContentLanguage[LOSE_LABEL]}"/>
         </Grid>
         
         <Border Style="{DynamicResource LabelBorder}" Width="400" Padding="15">

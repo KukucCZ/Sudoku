@@ -42,6 +42,9 @@
     <Page Update="Views\PlaySettingsPage.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\PlayLosePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\PlayWinPage.xaml">
       <SubType>Designer</SubType>
     </Page>

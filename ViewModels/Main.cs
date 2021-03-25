@@ -34,11 +34,21 @@ namespace Sudoku.ViewModels
         public CellsGrid IndexStepsList { get { return indexStepsList; } set { indexStepsList = value;  OnPropertyChanged(nameof(indexStepsList)); } }   //Index in StepsList    
 
         private long timeStart; //When user started in DateTime.UtcNow.Ticks
-        Solver solver;  //Solver instance
-        Generator generator;    //Generator instance
-        Dictionary<string, object> pageDictionary;  //Used for switching pages
-        TestPage testPage;
-        PlayPage playPage;
+        private Solver solver;  //Solver instance
+        private Generator generator;    //Generator instance
+        private Dictionary<string, object> pageDictionary;  //Used for switching pages
+        private Dictionary<object, string> pageDictionaryReverse;
+        private MainMenuPage mainMenuPage;
+        private TestPage testPage;
+        private SolvePage solvePage;
+        private StepsPage stepsPage;
+        private PlayPage playPage;
+        private PlaySettingsPage playSettingsPage;
+        private PlayWinPage playWinPage;
+        private PlayLosePage playLosePage;
+        private string SAVEPLAYPATH = "..\\..\\..\\Data\\save.xml";
+        private string SAVESOLVEPATH = "..\\..\\..\\Data\\saveSolve.xml";
+        private string last;
 
         public int IsCorrectUsed { get; set; }  //User used number of IsCorrect hints in PlayPage showed in PlayWinPage or PlayLosePage
         public int ShowNextUsed { get; set; }   //User used number of ShowNext hints in PlayPage showed in PlayWinPage or PlayLosePage
@@ -55,7 +65,8 @@ namespace Sudoku.ViewModels
         public ICommand GenerateCommand { get; set; }
         public ICommand ClearCellsCommand { get; set; }
         public ICommand ContinueCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
+        public ICommand SaveSolveCommand { get; set; }
+        public ICommand LoadSolveCommand { get; set; }
         public ICommand LeaveCommand { get; set; }
         public ICommand LeaveStepsPageCommand { get; set; }
 
@@ -72,6 +83,7 @@ namespace Sudoku.ViewModels
             SolveNextCount = 0;
 
             pageDictionary = new Dictionary<string, object>();
+            pageDictionaryReverse = new Dictionary<object, string>();
             cells = new CellsGrid();
             CellsMarked = new CellsGrid();
             
@@ -80,8 +92,14 @@ namespace Sudoku.ViewModels
             ContentLanguage = new LanguageIndexer("..\\..\\..\\Data\\contentLanguages.xml");
             TooltipLanguage = new LanguageIndexer("..\\..\\..\\Data\\tooltipLanguages.xml");
 
+            mainMenuPage = new MainMenuPage();
             testPage = new TestPage();
+            solvePage = new SolvePage();
+            stepsPage = new StepsPage();
             playPage = new PlayPage();
+            playSettingsPage = new PlaySettingsPage();
+            playWinPage = new PlayWinPage();
+            playLosePage = new PlayLosePage();
 
             GenerateCommand = new CommandHandler(() =>  {
                 CellsMarked.Clear();
@@ -162,34 +180,52 @@ namespace Sudoku.ViewModels
             }, () => true);
 
             ContinueCommand = new CommandHandler(() => { 
-                LoadState(); 
+                LoadState(SAVEPLAYPATH); 
             }, () => true);
 
-            SaveCommand = new CommandHandler(() => { 
-                SaveState();  
+            SaveSolveCommand = new CommandHandler(() => { 
+                SaveState(SAVESOLVEPATH, "Solve");  
+            }, () => true);
+
+            LoadSolveCommand = new CommandHandler(() => {
+                LoadState(SAVESOLVEPATH);
+                OnPropertyChanged(nameof(Cells));
             }, () => true);
 
             LeaveStepsPageCommand = new CommandHandler(() => {
                 cells.Clear();
-                IsCorrectCount = 0;
-                ShowNextCount = 0;
-                SolveNextCount = 0;
-                SaveState("PlaySettings");
+                if (last == "Play")
+                {
+                    IsCorrectCount = 0;
+                    ShowNextCount = 0;
+                    SolveNextCount = 0;
+                    SaveState(SAVEPLAYPATH,"PlaySettings");
+                }
                 ChangePage("MainMenu");
             }, () => true);
 
             LeaveCommand = new CommandHandler(() => {
-                SaveState();
+                SaveState(SAVEPLAYPATH);
                 ChangePage("MainMenu");
             }, () => true);
 
-            pageDictionary.Add("MainMenu", new MainMenuPage());
+            pageDictionary.Add("MainMenu", mainMenuPage);
             pageDictionary.Add("TestPage", testPage);
-            pageDictionary.Add("Solve", new SolvePage());
-            pageDictionary.Add("Steps", new StepsPage());
+            pageDictionary.Add("Solve", solvePage);
+            pageDictionary.Add("Steps", stepsPage);
             pageDictionary.Add("Play", playPage);
-            pageDictionary.Add("PlaySettings", new PlaySettingsPage());
-            pageDictionary.Add("PlayWin", new PlayWinPage());
+            pageDictionary.Add("PlaySettings", playSettingsPage);
+            pageDictionary.Add("PlayWin", playWinPage);
+            pageDictionary.Add("PlayLose", playLosePage);
+
+            pageDictionaryReverse.Add(mainMenuPage, "MainMenu");
+            pageDictionaryReverse.Add(testPage, "TestPage");
+            pageDictionaryReverse.Add(solvePage, "Solve");
+            pageDictionaryReverse.Add(stepsPage, "Steps");
+            pageDictionaryReverse.Add(playPage, "Play");
+            pageDictionaryReverse.Add(playSettingsPage, "PlaySettings");
+            pageDictionaryReverse.Add(playWinPage, "PlayWin");
+            pageDictionaryReverse.Add(playLosePage, "PlayLose");
 
             main = new MainWindow();
             main.DataContext = this;
@@ -203,7 +239,8 @@ namespace Sudoku.ViewModels
         /// <param name="page">Name of the page to change to</param>
         public void ChangePage(object page)
         {
-            if (page.ToString() == "Solve") cells.Clear();
+            last = pageDictionaryReverse[main.Content];
+            if (page.ToString() == "Solve" && last != "Solve") cells.Clear();
             if (page.ToString() == "Steps") indexStepsList = StepsList.Last();
             main.Content = pageDictionary[page.ToString()];
         }
@@ -213,18 +250,21 @@ namespace Sudoku.ViewModels
         /// </summary>
         public void Closing()
         {
-            Debug.Print("Closing");
-            if (main.Content is PlayPage) SaveState();
+            if (main.Content is PlayPage) SaveState(SAVEPLAYPATH);
             
             System.Windows.Application.Current.Shutdown();
         }
 
-        public void SaveState(string nextPage = "Play")
+        /// <summary>
+        /// Saves state to save.xml.
+        /// </summary>
+        /// <param name="nextPage">Next page to swiched to</param>
+        public void SaveState(string path, string nextPage = "Play")
         {
-            if (!(main.Content is StepsPage || main.Content is PlayPage)) return;
+            if (!(main.Content is StepsPage || main.Content is PlayPage || main.Content is PlayWinPage || main.Content is PlayLosePage || main.Content is SolvePage && path.Contains("Solve"))) return;
             CellsGrid tempGrid = cells.TrueClone();
             XElement element;
-            using (Stream reader = new FileStream("..\\..\\..\\Data\\save.xml", FileMode.Open))
+            using (Stream reader = new FileStream(path, FileMode.Open))
             {
                 element = XElement.Load(reader);
             }
@@ -243,14 +283,14 @@ namespace Sudoku.ViewModels
             element.Element("sudoku").Value = writeSudokuValue;
 
             if (Time != 0 || timeStart != 0)
-                element.Element("time").Value = (Time + DateTime.Now.Ticks - timeStart).ToString();
+                element.Element("time").Value = (Time + DateTime.UtcNow.Ticks - timeStart).ToString();
 
             element.Element("correct").Value = IsCorrectCount.ToString();
             element.Element("show").Value = ShowNextCount.ToString();
             element.Element("solve").Value = SolveNextCount.ToString();
-            element.Element("type").Value = nextPage;
+            element.Element("next").Value = nextPage;
 
-            using (Stream writer = new FileStream("..\\..\\..\\Data\\save.xml", FileMode.Create))
+            using (Stream writer = new FileStream(path, FileMode.Create))
             {
                 writer.Seek(0, SeekOrigin.Begin);
                 element.Save(writer);
@@ -258,11 +298,14 @@ namespace Sudoku.ViewModels
            
         }
 
-        public void LoadState()
+        /// <summary>
+        /// Loads state from file
+        /// </summary>
+        public void LoadState(string path)
         {
             CellsGrid tempGrid = new CellsGrid();
             XElement element;
-            using (Stream reader = new FileStream("..\\..\\..\\Data\\save.xml", FileMode.Open))
+            using (Stream reader = new FileStream(path, FileMode.Open))
             {
                 element = XElement.Load(reader);
             }
@@ -290,15 +333,18 @@ namespace Sudoku.ViewModels
             solver.Grid = cells.TrueClone();
             if(cells.Count != 0) solver.SolveHard();    //When is cells clear it takes long time
             timeStart = DateTime.UtcNow.Ticks;          
-            ChangePage(element.Element("type").Value);
+            ChangePage(element.Element("next").Value);
         }
 
+        /// <summary>
+        /// Checks if grid is solved and changes to PlayWinPage if Solved and PlayLosePage if was not solved.
+        /// </summary>
         public void IsWinned() 
         { 
             if (!(main.Content is PlayPage)) return;
-            Time += DateTime.Now.Ticks - timeStart;
+            Time += DateTime.UtcNow.Ticks - timeStart;
             if (solver.IsSolved()) ChangePage("PlayWin");
-            else ChangePage("PlayWin"); //Change to LosePage when ready
+            else ChangePage("PlayLose"); //Change to LosePage when ready
         }
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
