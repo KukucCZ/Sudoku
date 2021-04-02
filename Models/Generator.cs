@@ -62,22 +62,36 @@ namespace Sudoku.Models
         /// Generates sudoku into Generated property.
         /// </summary>
         /// <param name="difficulty">Easy = 0, Medium = 1, Hard = 2</param>
-        public void Generate(int difficulty)
+        public void Generate(Difficulty difficulty)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             Task[] tasks = new Task[4];
             for (int i = 0; i < tasks.Length; i++)
             {
-                tasks[i] = Task.Factory.StartNew(() => GenerateHelp(difficulty));
+                //tasks[i] = Task.Factory.StartNew(() => GenerateHelp(difficulty));     //Original
                 //tasks[i] = Task.Factory.StartNew(() => GenerateHelp2(difficulty));
+                tasks[i] = Task.Factory.StartNew(() => GenerateHelp3(difficulty));
             }
 
+            Debug.Print("Pokus\tNavraty\tOpak\tZbyva\tCas[ms]");
             Task.WhenAny(tasks).Wait();
             stopwatch.Stop();
-            Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
+            Debug.Print("Elapsed time [ms]:\t" + stopwatch.ElapsedMilliseconds.ToString());
+            Debug.Print("Generated\t" + Generated.Count);
+            string helper = "";
+            for (int x = 0; x < 9; x++)
+            {
+                helper = "";
+                for (int y = 0; y < 9; y++)
+                {
+                    helper += Generated[x, y].ToString() + " ";
+                }
+                Debug.Print(helper);
+            }
+            Debug.Print("");
         }
-
+        
         /// <summary>
         /// Generates sudoku into Generated property.
         /// </summary>
@@ -152,6 +166,7 @@ namespace Sudoku.Models
                         stopwatch.Restart();
                         backDebug = 0;
                         iterations = 0;
+
                         resets++;
                         gridTested = grid.TrueClone();
                         gridSolved = grid.TrueClone();
@@ -161,6 +176,97 @@ namespace Sudoku.Models
             Generated = gridSolved.TrueClone();
             stopwatch.Stop();
             Debug.Print(resets.ToString() + "\t" + backDebug.ToString() + "\t" + iterations.ToString() + "\t" + gridSolved.Count.ToString() + "\t" + stopwatch.ElapsedMilliseconds.ToString());
+        }
+        
+        /// <summary>
+        /// Generates sudoku into Generated property.
+        /// </summary>
+        /// <param name="difficulty">Relative difficulty of generated sudoku</param>
+        /// <param name="offset">Subtract from left numbers to create harder sudoku, CPU intensive</param>
+        private void GenerateHelp3(Difficulty difficulty)
+        {
+            int left = 30; 
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    left = 25;
+                    break;
+                case Difficulty.Medium:
+                    left = 27;
+                    break;
+                case Difficulty.Hard:
+                    left = 32;
+                    break;
+            }
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            CellsGrid gridTested = grid.TrueClone();
+            CellsGrid gridSolved = grid.TrueClone();
+            List<List<int>> NotNullList;
+            int resets = 1;
+            int iterations = 0;
+            int last = 0;
+            int backDebug = 0;
+            Solver solver = new Solver(gridTested);
+            for(; ; )
+            {
+                if (Generated.Count <= left) return;    //Stops generating if any other thread generated
+
+                if (gridSolved.Count <= left)
+                {
+                    if (new Solver(gridSolved).GetDifficulty() == difficulty)
+                        break;
+                }
+
+                if (resets >= 30) break;
+
+                iterations++;
+                NotNullList = NotNull(gridTested);
+                List<int> item = NotNullList[random.Next(NotNullList.Count)];
+                gridTested[item[0], item[1]] = 0;
+
+                solver.Grid = gridTested.TrueClone();
+
+                switch (difficulty)
+                {
+                    case Difficulty.Easy:
+                        solver.SolveEasy();
+                        break;
+                    case Difficulty.Medium:
+                        solver.SolveMedium();
+                        break;
+                    case Difficulty.Hard:
+                        solver.SolveHard();
+                        break;
+                }
+
+
+                if (solver.IsSolved())
+                {
+                    gridSolved = gridTested.TrueClone();
+                    last = 0;
+                }
+                else
+                {
+                    gridTested = gridSolved.TrueClone();
+                    backDebug++;
+                    last++;
+                    if (last > gridSolved.Count / 2)
+                    {
+                        Debug.Print(resets.ToString() + "\t\t" + backDebug.ToString() + "\t\t" + iterations.ToString() + "\t\t" + gridSolved.Count.ToString() + "\t\t" + stopwatch.ElapsedMilliseconds.ToString());
+                        stopwatch.Restart();
+                        backDebug = 0;
+                        iterations = 0;
+
+                        resets++;
+                        gridTested = grid.TrueClone();
+                        gridSolved = grid.TrueClone();
+                    }
+                }
+            }
+            Generated = gridSolved.TrueClone();
+            stopwatch.Stop();
+            Debug.Print(resets.ToString() + "\t\t" + backDebug.ToString() + "\t\t" + iterations.ToString() + "\t\t" + gridSolved.Count.ToString() + "\t\t" + stopwatch.ElapsedMilliseconds.ToString());
         }
 
         /// <summary>
@@ -228,7 +334,7 @@ namespace Sudoku.Models
         private void DebugGridPrintMain(CellsGrid cells, string message = "", bool print = true)
         {
             if (!print) return;
-            string helper = "";
+            string helper;
             Debug.Print(message);
             for (int x = 0; x < 9; x++)
             {

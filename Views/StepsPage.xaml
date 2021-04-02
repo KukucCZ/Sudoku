@@ -25,51 +25,53 @@
             <ColumnDefinition MinWidth="350" Width="2*"/>
             <ColumnDefinition MinWidth="50" Width="*"/>
         </Grid.ColumnDefinitions>
+        
+        <Viewbox Stretch="Uniform" Margin="0">
+            <Grid x:Name="playGrid" Width="500" Height="500" Grid.Column="0" Grid.Row="0" Style="{DynamicResource StepsGrid}">
 
-        <Grid x:Name="playGrid" Grid.Column="0" Grid.Row="0" Style="{DynamicResource StepsGrid}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-            </Grid.ColumnDefinitions>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="0"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="4"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="8"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="12"/>
 
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="0"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="4"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="8"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Column="0" Grid.ColumnSpan="13" Grid.Row="12"/>
-
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="0"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="4"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="8"/>
-            <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="12"/>
-        </Grid>
-
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="0"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="4"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="8"/>
+                <Border BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3" Grid.Row="0" Grid.RowSpan="13" Grid.Column="12"/>
+            </Grid>
+        </Viewbox>
+        
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="45"/>
@@ -80,8 +82,8 @@
             <Border Style="{DynamicResource LabelBorder}" Width="auto" Margin="5,0" Grid.Row="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Label  Content="{Binding DifficultySolved}"/>
-                    <Label Content=" "/>
-                    <Label  Content="{Binding ContentLanguage[DIFFICULTY_LABEL]}"   ToolTip="{Binding TooltipLanguage[DIFFICULTY_LABEL]}"/>
+                    <!--<Label Content=" "/>
+                    <Label  Content="{Binding ContentLanguage[DIFFICULTY_LABEL]}"   ToolTip="{Binding TooltipLanguage[DIFFICULTY_LABEL]}"/>-->
                 </StackPanel>
             </Border>
             <ListBox  HorizontalContentAlignment="Center" Grid.Row="1" ItemsSource="{Binding StepsList}" SelectedItem="{Binding IndexStepsList}" Margin="5,5" Background="{DynamicResource ColorPrimary}" BorderBrush="{DynamicResource ColorPrimaryDark}" BorderThickness="3">

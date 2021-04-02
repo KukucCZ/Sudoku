@@ -34,6 +34,10 @@
     <language>Save your progression</language>
     <language>Ulož si svůj postup</language>
   </languages>
+  <languages id="LOAD_BUTTON">
+    <language>TODOLoad</language>
+    <language>TODONačíst</language>
+  </languages>
   <languages id="SURRENDER_BUTTON">
     <language>you coward...</language>
     <language>zbabělče...</language>
@@ -90,5 +94,9 @@
   <languages id="ISCORRECT_LABEL">
     <language>Shows incorrect numbers</language>
     <language>Označí nesprávně zadaná čísla</language>
+  </languages>
+  <languages id="UNLIMITED_LABEL">
+    <language>Sets number of hints to almost infinity</language>
+    <language>Nastaví počet nápověd na skoro nekonečno</language>
   </languages>
 </content>

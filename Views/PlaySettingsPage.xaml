@@ -5,14 +5,20 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Sudoku.Views"
       xmlns:vm="clr-namespace:Sudoku.ViewModels"
+      xmlns:ot="clr-namespace:Sudoku.Other"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       d:DataContext="{d:DesignInstance Type=vm:Main}"
       Title="PlaySettingsPage">
 
-    <StackPanel Margin="100, 50, 100, 50">
+    <Page.Resources>
+        <vm:Main x:Key="MainViewModel"/>
+        <ot:DifficultyConverter x:Key="DifficultyConverter"/>
+    </Page.Resources>
+    
+    <StackPanel Margin="50, 50, 50, 50">
         <Button Width="150" Content="{Binding ContentLanguage[LEAVE_BUTTON]}" ToolTip="{Binding TooltipLanguage[LEAVE_BUTTON]}" Command="{Binding ChangePageCommand}" CommandParameter="MainMenu"/>
-        <Border Style="{DynamicResource LabelBorder}" Width="500">
+        <Border Style="{DynamicResource LabelBorder}" Width="600">
             <Grid Margin="10, 5, 10, 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -29,17 +35,18 @@
                 <Label Grid.Row="1" HorizontalAlignment="Center" Content="{Binding ContentLanguage[EASYDIFFICULTY_LABEL]}"/>
                 <Label Grid.Row="1" HorizontalAlignment="Center" Content="{Binding ContentLanguage[MEDIUMDIFFICULTY_LABEL]}" Grid.Column="1"/>
                 <Label Grid.Row="1" HorizontalAlignment="Center" Content="{Binding ContentLanguage[HARDDIFFICULTY_LABEL]}" Grid.Column="2"/>
-                <Slider Width="360" Grid.Row="2" Grid.ColumnSpan="3" Minimum="0" Maximum="2" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding DifficultySet}"/>
+                <Slider Width="430" Grid.Row="2" Grid.ColumnSpan="3" Minimum="0" Maximum="2" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding DifficultySet, Converter={StaticResource DifficultyConverter}}"/>
             </Grid>
         </Border>
-        <Border Style="{DynamicResource LabelBorder}" Width="500" Margin="0,5,0,0">
+        <Border Style="{DynamicResource LabelBorder}" Width="600" Margin="0,5,0,0">
             <Grid Margin="10, 5, 10, 5">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -54,30 +61,33 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Grid.ColumnSpan="5" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Content="{Binding ContentLanguage[HINTS_LABEL]}" ToolTip="{Binding TooltipLanguage[HINTS_LABEL]}"/>
-                <Label Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Center" Content="{Binding ContentLanguage[ISCORRECT_LABEL]}" ToolTip="{Binding TooltipLanguage[ISCORRECT_LABEL]}" ToolTipService.InitialShowDelay="300"/>
+                <Label Grid.Row="0" Grid.ColumnSpan="6" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Content="{Binding ContentLanguage[HINTS_LABEL]}" ToolTip="{Binding TooltipLanguage[HINTS_LABEL]}"/>
+                <Label Grid.Row="1" Grid.ColumnSpan="6" HorizontalAlignment="Center" Content="{Binding ContentLanguage[ISCORRECT_LABEL]}" ToolTip="{Binding TooltipLanguage[ISCORRECT_LABEL]}" ToolTipService.InitialShowDelay="300"/>
                 <Label Grid.Row="2" HorizontalAlignment="Center" Content="0"/>
                 <Label Grid.Row="2" HorizontalAlignment="Center" Content="1" Grid.Column="1"/>
                 <Label Grid.Row="2" HorizontalAlignment="Center" Content="2" Grid.Column="2"/>
                 <Label Grid.Row="2" HorizontalAlignment="Center" Content="3" Grid.Column="3"/>
                 <Label Grid.Row="2" HorizontalAlignment="Center" Content="4" Grid.Column="4"/>
-                <Slider Width="380" Grid.Row="3" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding IsCorrectCount}"/>
+                <CheckBox Grid.Row="2" Grid.RowSpan="2" Content="{Binding ContentLanguage[UNLIMITED_LABEL]}" ToolTip="{Binding TooltipLanguage[UNLIMITED_LABEL]}" Grid.Column="5" IsChecked="{Binding IsCorrectUnlimited}"/>
+                <Slider Width="360" Grid.Row="3" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding IsCorrectCount}"/>
 
-                <Label Grid.Row="4" Grid.ColumnSpan="5" HorizontalAlignment="Center" Content="{Binding ContentLanguage[SHOWCELL_LABEL]}" ToolTip="{Binding TooltipLanguage[SHOWCELL_LABEL]}" ToolTipService.InitialShowDelay="300"/>
+                <Label Grid.Row="4" Grid.ColumnSpan="6" HorizontalAlignment="Center" Content="{Binding ContentLanguage[SHOWCELL_LABEL]}" ToolTip="{Binding TooltipLanguage[SHOWCELL_LABEL]}" ToolTipService.InitialShowDelay="300"/>
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="0"/>
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="1" Grid.Column="1"/>
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="2" Grid.Column="2"/>
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="3" Grid.Column="3"/>
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="4" Grid.Column="4"/>
-                <Slider Width="380" Grid.Row="6" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ShowNextCount}"/>
+                <CheckBox Grid.Row="5" Grid.RowSpan="2" Content="{Binding ContentLanguage[UNLIMITED_LABEL]}" ToolTip="{Binding TooltipLanguage[UNLIMITED_LABEL]}" Grid.Column="5" IsChecked="{Binding ShowNextUnlimited}"/>
+                <Slider Width="360" Grid.Row="6" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ShowNextCount}"/>
                 
-                <Label Grid.Row="7" Grid.ColumnSpan="5" HorizontalAlignment="Center" Content="{Binding ContentLanguage[NEXTCELL_LABEL]}" ToolTip="{Binding TooltipLanguage[NEXTCELL_LABEL]}" ToolTipService.InitialShowDelay="300"/>
+                <Label Grid.Row="7" Grid.ColumnSpan="6" HorizontalAlignment="Center" Content="{Binding ContentLanguage[NEXTCELL_LABEL]}" ToolTip="{Binding TooltipLanguage[NEXTCELL_LABEL]}" ToolTipService.InitialShowDelay="300"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="0"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="1" Grid.Column="1"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="2" Grid.Column="2"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="3" Grid.Column="3"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="4" Grid.Column="4"/>
-                <Slider Width="380" Grid.Row="9" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding SolveNextCount}" Margin="0,0,0,8"/>
+                <CheckBox Grid.Row="8" Grid.RowSpan="2" Content="{Binding ContentLanguage[UNLIMITED_LABEL]}" ToolTip="{Binding TooltipLanguage[UNLIMITED_LABEL]}" Grid.Column="5" IsChecked="{Binding SolveNextUnlimited}"/>
+                <Slider Width="360" Grid.Row="9" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding SolveNextCount}" Margin="0,0,0,8"/>
             </Grid>
         </Border>
         <Button Width="150" Content="Generate" Command="{Binding GenerateCommand}"/>

@@ -1,19 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <content>
-  <type>Play</type>
+  <next>PlaySettings</next>
   <correct>0</correct>
   <show>0</show>
   <solve>0</solve>
-  <time>36103253816</time>
+  <correctused>0</correctused>
+  <showused>0</showused>
+  <solveused>0</solveused>
+  <time>78928732</time>
   <sudoku>
-9 0 3 0 0 0 0 0 0 
-7 0 0 0 0 0 0 0 1 
-0 0 0 0 9 0 6 4 0 
-8 0 7 5 0 0 1 0 0 
-0 0 0 0 0 6 2 0 0 
-0 0 1 2 0 0 0 0 0 
-0 0 0 0 0 5 0 0 7 
-2 1 0 3 0 0 0 0 0 
-3 0 8 0 0 9 0 2 6 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
+0 0 0 0 0 0 0 0 0 
 </sudoku>
+  <sudokuoriginal>
+1 0 0 0 0 7 0 0 9 
+7 4 0 0 0 0 1 5 2 
+0 0 0 0 0 5 0 4 6 
+0 0 0 0 7 1 0 0 0 
+0 0 1 0 0 0 4 0 7 
+9 0 6 2 0 8 0 0 0 
+0 0 8 0 0 0 0 0 5 
+0 0 0 5 0 6 0 3 0 
+0 9 0 0 0 2 0 7 0 
+</sudokuoriginal>
 </content>

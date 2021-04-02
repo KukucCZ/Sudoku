@@ -59,6 +59,9 @@
                 </Grid>
             </StackPanel>
         </Border>
-        <Button Width="150" VerticalAlignment="Bottom" Content="{Binding ContentLanguage[LEAVE_BUTTON]}" Command="{Binding LeaveStepsPageCommand}"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="150" VerticalAlignment="Bottom" Content="{Binding ContentLanguage[LEAVE_BUTTON]}" Command="{Binding LeaveStepsPageCommand}"/>
+            <Button Width="150" VerticalAlignment="Bottom" Content="{Binding ContentLanguage[STEPS_BUTTON]}" Command="{Binding SolveAllCommand}"/>
+        </StackPanel>
     </StackPanel>
 </Page>

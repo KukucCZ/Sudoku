@@ -4,151 +4,158 @@
   <languages id="LANGUAGES">
     <language>English</language>
     <language>Čeština</language>
+    <language>Xhosa</language>
   </languages>
   <!--BUTTONS-->
   <languages id="CONTINUE_BUTTON">
     <language>Continue</language>
     <language>Pokračovat</language>
+    <language>Qhubeka</language>
   </languages>
   <languages id="PLAY_BUTTON">
     <language>Play</language>
     <language>Hrát</language>
+    <language>Dlala</language>
   </languages>
   <languages id="SOLVE_BUTTON">
     <language>Solve</language>
     <language>Vyřešit</language>
+    <language>Sombulula</language>
   </languages>
   <languages id="LANGUAGE_BUTTON">
-    <language>Česky</language>
+    <language>Čeština</language>
+    <language>Xhosa</language>
     <language>English</language>
   </languages>
   <languages id="LEAVE_BUTTON">
     <language>Leave</language>
     <language>Odejít</language>
+    <language>Shiya</language>
   </languages>
   <languages id="EXIT_BUTTON">
     <language>Exit</language>
     <language>Odejít</language>
+    <language>Phuma</language>
   </languages>
   <languages id="GENERATE_BUTTON">
     <language>Generate</language>
     <language>Vytvořit</language>
+    <language>Qalisa</language>
   </languages>
   <languages id="SAVE_BUTTON">
     <language>Save</language>
     <language>Uložit</language>
-  </languages>
-  <languages id="LOAD_BUTTON">
-    <language>Load</language>
-    <language>Načíst</language>
+    <language>Gcina</language>
   </languages>
   <languages id="SURRENDER_BUTTON">
     <language>Surrender</language>
     <language>Vzdát se</language>
+    <language>Ukunikezela</language>
   </languages>
   <languages id="BACK_BUTTON">
     <language>Back</language>
     <language>Zpět</language>
+    <language>Xhosa</language>
   </languages>
   <languages id="NEXT_BUTTON">
     <language>Next</language>
     <language>Další</language>
+    <language>Xhosa</language>
   </languages>
   <languages id="STEPS_BUTTON">
     <language>Steps</language>
     <language>Kroky</language>
+    <language>Amanyathelo</language>
   </languages>
   <languages id="ISCORRECT_BUTTON">
     <language>Show mistakes</language>
     <language>Ukázat chyby</language>
+    <language>Bonisa iimpazamo</language>
   </languages>
   <languages id="SHOWNEXT_BUTTON">
     <language>Show next</language>
     <language>Ukázat další</language>
+    <language>Bonisa okulandelayo</language>
   </languages>
   <languages id="SOLVENEXT_BUTTON">
     <language>Solve next</language>
     <language>Vyřešit další</language>
+    <language>Sombulula ngokulandelayo</language>
   </languages>
   <languages id="SOLVEALL_BUTTON">
     <language>Solve all</language>
     <language>Vyřešit vše</language>
+    <language>Sombulula zonke</language>
   </languages>
   <languages id="CLEARHINTS_BUTTON">
     <language>Clear hints</language>
     <language>Smazat nápovědu</language>
-  </languages>
-  <languages id="CLEARALL_BUTTON">
-    <language>Clear grid</language>
-    <language>Smazat pole</language>
+    <language>Cacisa iingcebiso</language>
   </languages>
   <!--LABELS-->
   <languages id="DIFFICULTYSET_LABEL">
     <language>Difficulty</language>
     <language>Obtížnost</language>
+    <language>Ubunzima</language>
   </languages>
   <languages id="DIFFICULTY_LABEL">
     <language>difficulty</language>
     <language>obtížnost</language>
+    <language>ubunzima</language>
   </languages>
   <languages id="EASYDIFFICULTY_LABEL">
     <language>Easy</language>
     <language>Lehká</language>
+    <language>Elula</language>
   </languages>
   <languages id="MEDIUMDIFFICULTY_LABEL">
     <language>Medium</language>
     <language>Střední</language>
+    <language>Phakathi</language>
   </languages>
   <languages id="HARDDIFFICULTY_LABEL">
     <language>Hard</language>
     <language>Těžká</language>
+    <language>Kunzima</language>
   </languages>
    <languages id="NOTSOLVEDDIFFICULTY_LABEL">
     <language>Unsolvable</language>
-    <language>Nevyřešitelné</language>
-  </languages>
-  <languages id="INVALIDDIFFICULTY_LABEL">
-    <language>Invalid</language>
-    <language>Neplatné</language>
+    <language>Nevyřešitelná</language>
+    <language>Ayinakusombululeka</language>
   </languages>
   <languages id="HINTS_LABEL">
     <language>Hints</language>
     <language>Nápovědy</language>
+    <language>Iingcebiso</language>
   </languages>
   <languages id="NEXTCELL_LABEL">
     <language>Solve next</language>
     <language>Vyřešit další</language>
+    <language>Xhosa</language>
   </languages> 
   <languages id="SHOWCELL_LABEL">
     <language>Show next</language>
     <language>Ukázat další</language>
+    <language>Sombulula ngokulandelayo</language>
   </languages>
   <languages id="ISCORRECT_LABEL">
     <language>Show mistakes</language>
     <language>Ukázat chyby</language>
+    <language>Bonisa iimpazamo</language>
   </languages>
   <languages id="STEP_LABEL">
     <language>filled numbers</language>
     <language>vyplněných čísel</language>
+    <language>amanani azalisiweyo</language>
   </languages>
   <languages id="USEDHINTS_LABEL">
     <language>Used hints</language>
     <language>Použité nápovědy</language>
-  </languages>
+    <language>Amacebo asetyenzisiweyo</language>
+  </languages>¨
   <languages id="TIME_LABEL">
     <language>Time</language>
     <language>Čas</language>
-  </languages>
-  <languages id="WIN_LABEL">
-    <language>YOU WON!</language>
-    <language>VÝHRA!</language>
-  </languages>
-  <languages id="LOSE_LABEL">
-    <language>YOU LOST!</language>
-    <language>PROHRA!</language>
-  </languages>
-  <languages id="UNLIMITED_LABEL">
-    <language>Unlimited</language>
-    <language>Nekonečno</language>
+    <language>Ixesha</language>
   </languages>
 </content>

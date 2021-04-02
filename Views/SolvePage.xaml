@@ -72,7 +72,7 @@
             </Grid>
         </Viewbox>
 
-        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="10,50,0,0">
+        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="0,50,10,0">
             <Button Content="{Binding ContentLanguage[LEAVE_BUTTON]}"       ToolTip="{Binding TooltipLanguage[LEAVE_BUTTON]}" Command="{Binding ChangePageCommand}" CommandParameter="MainMenu"/>
             <Button Content="{Binding ContentLanguage[SAVE_BUTTON]}"        ToolTip="{Binding TooltipLanguage[SAVE_BUTTON]}" Command="{Binding SaveSolveCommand}"/>
             <Button Content="{Binding ContentLanguage[LOAD_BUTTON]}"        ToolTip="{Binding TooltipLanguage[LOAD_BUTTON]}" Command="{Binding LoadSolveCommand}"/>

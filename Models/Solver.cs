@@ -15,7 +15,7 @@ namespace Sudoku.Models
         public CellsGrid SolvedGrid { get; private set; }
         public Solver(CellsGrid inputGrid) : base(inputGrid)
         {
-            Grid = inputGrid.Clone();
+            Grid = inputGrid.TrueClone();
             possible = new List<List<List<int>>>();
             for (int i = 0; i < 9; i++)
             {
@@ -26,9 +26,26 @@ namespace Sudoku.Models
                 }
             }
 
-            //if(Grid.Count > 5) SolveHard();
+            Steps = new List<CellsGrid>();
+            Steps.Add(Grid.TrueClone());
         }
         
+        public bool Solve(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    return SolveEasy();
+                case Difficulty.Medium:
+                    return SolveMedium();
+                case Difficulty.Hard:
+                    return SolveHard();
+                case Difficulty.Unsolvable:
+                    return false;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Solves a sudoku with easy preset.
         /// </summary>
@@ -57,6 +74,33 @@ namespace Sudoku.Models
         {
             SolveAll(true, true, 4, 4);
             return IsSolved();
+        }
+
+        public Difficulty GetDifficulty()
+        {
+            return GetDifficulty(Grid);
+        }
+
+        public Difficulty GetDifficulty(CellsGrid inputGrid)
+        {
+            Grid = inputGrid.TrueClone();
+            if (!IsValid()) return Difficulty.Unsolvable;
+            Grid = inputGrid.TrueClone();
+            if (!SolveEasy())
+            {
+                Grid = inputGrid.TrueClone();
+                if (!SolveMedium())
+                {
+                    Grid = inputGrid.TrueClone();
+                    if (!SolveHard())
+                    {
+                        return Difficulty.Unsolvable;
+                    }
+                    else return Difficulty.Hard;
+                }
+                else return Difficulty.Medium;
+            }
+            else return Difficulty.Easy;
         }
 
         /// <summary>
@@ -168,8 +212,60 @@ namespace Sudoku.Models
             return output;
         }
 
-        public int[] ShowNext(CellsGrid inputGrid)
+        public List<int[]> GetInvalid(CellsGrid inputGrid)
         {
+            List<int[]> output = new List<int[]>();
+            if (new Validator(inputGrid).IsValid()) return output;
+            Grid = inputGrid;
+            for (int num = 1; num < 10; num++)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    int subX = (i / 3) * 3;
+                    int subY = (i % 3) * 3;
+                    if(CountRow(i, num) > 1)
+                    {
+                        int[] row = GetRow(i);
+                        for (int y = 0; y < 9; y++)
+                            if (row[y] == num) output.Add(new int[] { i, y });
+                    }
+                    if (CountColumn(i, num) > 1)
+                    {
+                        int[] col = GetColumn(i);
+                        for (int x = 0; x < 9; x++)
+                            if (col[x] == num) output.Add(new int[] { x, i });
+                    }
+                    if (CountSubgrid(subX, subY, num) > 1)
+                    {
+                        for (int x = subX; x < subX + 3; x++) for (int y = subY; y < subY + 3; y++)
+                            {
+                                if (inputGrid[x, y] == num) output.Add(new int[] { x, y });
+                            }
+                    }
+                }
+            }
+            return output;
+        }
+
+        public int[] ShowNext(CellsGrid inputGrid, Difficulty difficulty)
+        {
+            bool possiblePair = true;
+            int hidden = 0;
+            int same = 0;
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    possiblePair = false;
+                    break;
+                case Difficulty.Medium:
+                    same = 2;
+                    break;
+                case Difficulty.Hard:
+                    hidden = 4;
+                    same = 4;
+                    break;
+            }
+
             Grid = inputGrid.TrueClone();
             //Adding numbers to possible.
             for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0) Intersect(x, y);
@@ -177,22 +273,21 @@ namespace Sudoku.Models
             //Removing numbers from possible.
             for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] != 0) RemovePossible(x, y);
 
-            for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0) RemovePair(x, y);
+            if (possiblePair) for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0) RemovePair(x, y);
 
-            for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0)
+            if (hidden != 0) for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0)
                         {
                             RemoveHidden(x, y);
-                            RemoveHidden(x, y, 3);
-                            RemoveHidden(x, y, 4);
+                            if (hidden > 2) RemoveHidden(x, y, 3);
+                            if (hidden > 3) RemoveHidden(x, y, 4);
                         }
 
-            for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0)
+            if (same != 0) for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0)
                         {
                             RemoveSame(x, y);
-                            RemoveSame(x, y, 3);
-                            RemoveSame(x, y, 4);
+                            if (same > 2) RemoveSame(x, y, 3);
+                            if (same > 3) RemoveSame(x, y, 4);
                         }
-
             //Adding numbers to grid.
             for (int x = 0; x < 9; x++) for (int y = 0; y < 9; y++) if (Grid[x, y] == 0)
                     {
@@ -519,7 +614,7 @@ namespace Sudoku.Models
             {
                 bool col = false;
                 bool row = false;
-                int occurrence = CountSubgrid(x, y, num);
+                int occurrence = CountPossibleSubgrid(x, y, num);
                 if (occurrence == 2 || occurrence == 3)
                 {
                     int countCol = 0;
@@ -652,7 +747,6 @@ namespace Sudoku.Models
             return count;
         }
 
-        //count
         /// <summary>
         /// Returns how many times specified number occurs in row.
         /// </summary>
@@ -660,6 +754,56 @@ namespace Sudoku.Models
         /// <param name="num">Specified number.</param>
         /// <returns>Integer number of occurrence.</returns>
         private int CountRow(int index, int num)
+        {
+            int count = 0;
+            foreach (int item in GetRow(index))
+            {
+                if (item == num) count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns how many times specified number occurs in column.
+        /// </summary>
+        /// <param name="index">Index of column.</param>
+        /// <param name="num">Specified number.</param>
+        /// <returns>Integer number of occurrence.</returns>
+        private int CountColumn(int index, int num)
+        {
+            int count = 0;
+            foreach (int item in GetColumn(index))
+            {
+                if (item == num) count++;
+            }
+            return count;
+        }
+
+        /// <summary>
+        /// Returns how many times specified number occurs in subgrid.
+        /// </summary>
+        /// <param name="x">X index of subgrid.</param>
+        /// <param name="y">Y index of subgrid.</param>
+        /// <param name="num">Specified number.</param>
+        /// <returns>Integer number of occurrence.</returns>
+        private int CountSubgrid(int x, int y, int num)
+        {
+            int count = 0;
+            foreach (int item in GetSubgrid(x, y))
+            {
+                if (item == num) count++;
+            }
+            return count;
+        }
+
+        //count
+        /// <summary>
+        /// Returns how many times specified number occurs in row.
+        /// </summary>
+        /// <param name="index">Index of row.</param>
+        /// <param name="num">Specified number.</param>
+        /// <returns>Integer number of occurrence.</returns>
+        private int CountPossibleRow(int index, int num)
         {
             int count = 0;
             foreach (List<int> item in GetPossibleRow(index))
@@ -675,7 +819,7 @@ namespace Sudoku.Models
         /// <param name="index">Index of column.</param>
         /// <param name="num">Specified number.</param>
         /// <returns>Integer number of occurrence.</returns>
-        private int CountColumn(int index, int num)
+        private int CountPossibleColumn(int index, int num)
         {
             int count = 0;
             foreach (List<int> item in GetPossibleColumn(index))
@@ -692,7 +836,7 @@ namespace Sudoku.Models
         /// <param name="y">Y index of subgrid.</param>
         /// <param name="num">Specified number.</param>
         /// <returns>Integer number of occurrence.</returns>
-        private int CountSubgrid(int x, int y, int num)
+        private int CountPossibleSubgrid(int x, int y, int num)
         {
             int count = 0;
             foreach (List<int> item in GetPossibleSubgrid(x, y))
