@@ -15,6 +15,7 @@
     <Page.Resources>
         <vm:Main x:Key="MainViewModel"/>
         <ot:GridConverter x:Key="GridConverter"/>
+        <ot:ColumnSpanConverter x:Key="ColumnSpanConverter"/>
     </Page.Resources>
 
     <Grid Margin="30,0">
@@ -91,21 +92,24 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <Button Content="{Binding ContentLanguage[ISCORRECT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[ISCORRECT_BUTTON]}" Command="{Binding IsCorrectCommand}" MinWidth="100"/>
-                <Border Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0">
+                <Border Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0" Margin="0,0,5,0">
                     <Label Content="{Binding IsCorrectCount}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
-                <Button Grid.Row="1" Content="{Binding ContentLanguage[SHOWNEXT_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SHOWNEXT_BUTTON]}" Command="{Binding ShowNextCommand}" MinWidth="100"/>
-                <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0">
+                <Button Grid.ColumnSpan="{Binding IsCorrectUnlimited, Converter={StaticResource ColumnSpanConverter}}" Content="{Binding ContentLanguage[ISCORRECT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[ISCORRECT_BUTTON]}" Command="{Binding IsCorrectCommand}" MinWidth="100"/>
+
+                <Border Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0" Margin="0,0,5,0">
                     <Label Content="{Binding ShowNextCount}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
-                <Button Grid.Row="2" Content="{Binding ContentLanguage[SOLVENEXT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[SOLVENEXT_BUTTON]}" Command="{Binding SolveNextCommand}" MinWidth="100"/>
-                <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0">
+                <Button Grid.Row="1" Grid.ColumnSpan="{Binding ShowNextUnlimited, Converter={StaticResource ColumnSpanConverter}}" Content="{Binding ContentLanguage[SHOWNEXT_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SHOWNEXT_BUTTON]}" Command="{Binding ShowNextCommand}" MinWidth="100"/>
+
+                <Border Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelBorder}" Width="auto" Height="40" HorizontalAlignment ="Stretch" Padding="0" Margin="0,0,5,0">
                     <Label Content="{Binding SolveNextCount}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
+                <Button Grid.Row="2" Grid.ColumnSpan="{Binding SolveNextUnlimited, Converter={StaticResource ColumnSpanConverter}}" Content="{Binding ContentLanguage[SOLVENEXT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[SOLVENEXT_BUTTON]}" Command="{Binding SolveNextCommand}" MinWidth="100"/>
+
             </Grid>
-            <Button Grid.Row="2" Content="{Binding ContentLanguage[CLEARHINTS_BUTTON]}"   ToolTip="{Binding TooltipLanguage[CLEARHINTS_BUTTON]}" Command="{Binding ClearHintsCommand}" Margin="5,5,0,5"/>
-            <Button Grid.Row="2" Content="SOLVE ALL DEBUG" Command="{Binding DebugSolveAll}" Margin="5,5,0,5"/>
+            <Button Grid.Row="2" Content="{Binding ContentLanguage[CLEARHINTS_BUTTON]}"   ToolTip="{Binding TooltipLanguage[CLEARHINTS_BUTTON]}" Command="{Binding ClearHintsCommand}"/>
+            <!--<Button Grid.Row="2" Content="SOLVE ALL DEBUG" Command="{Binding DebugSolveAll}"/>-->
 
         </StackPanel>
 

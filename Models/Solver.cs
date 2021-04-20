@@ -8,7 +8,7 @@ namespace Sudoku.Models
 {
     class Solver : Validator
     {
-        private bool debug = false;
+        public bool debug = false;
         private List<List<List<int>>> possible;
         public List<CellsGrid> Steps { get; private set; }
         public CellsGrid NextStepGrid { get; private set; }
@@ -111,12 +111,11 @@ namespace Sudoku.Models
         /// <param name="hidden">Use removeHidden method.</param>
         /// <param name="debug">Steps outputing into debugging console.</param>
         /// <returns></returns>
-        public int SolveAll(bool possibleAlone = true, bool possiblePair = true, int hidden = 0, int same = 0, bool debug = false)
+        public int SolveAll(bool possibleAlone = true, bool possiblePair = true, int hidden = 0, int same = 0)
         {
             Steps = new List<CellsGrid>();
             Steps.Add(Grid.TrueClone());
 
-            this.debug = debug;
             bool changed = false;
             int changedCounter = 0;
             int iteration = 0;
@@ -173,7 +172,7 @@ namespace Sudoku.Models
                     if (debug)
                     {
                         Debug.Print("Solved");
-                        string helper = "";
+                        string helper;
                         for (int x = 0; x < 9; x++)
                         {
                             helper = "";
@@ -312,7 +311,7 @@ namespace Sudoku.Models
         private void DebugGridPrintMain(CellsGrid cells, string message = "", bool print = false)
         {
             if (!print) return;
-            string helper = "";
+            string helper;
             Debug.Print(message);
             for (int x = 0; x < 9; x++)
             {

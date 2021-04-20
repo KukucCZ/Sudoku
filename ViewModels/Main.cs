@@ -27,16 +27,24 @@ namespace Sudoku.ViewModels
         public int IsCorrectCount { get; set; } //User setted number of IsCorrect hints in PlaySettingsPage
         public int ShowNextCount { get; set; }  //User setted number of ShowNext hints in PlaySettingsPage
         public int SolveNextCount { get; set; } //User setted number of SolveNext hints in PlaySettingsPage
-        public bool IsCorrectUnlimited { get; set; } //User setted number of IsCorrect hints in PlaySettingsPage
-        public bool ShowNextUnlimited { get; set; }  //User setted number of ShowNext hints in PlaySettingsPage
-        public bool SolveNextUnlimited { get; set; } //User setted number of SolveNext hints in PlaySettingsPage
+
+        private bool isCorrectUnlimited;
+        public bool IsCorrectUnlimited { get => isCorrectUnlimited; set { isCorrectUnlimited = value; OnPropertyChanged(nameof(isCorrectUnlimited)); } } //User setted number of IsCorrect hints in PlaySettingsPage
+
+        private bool showNextUnlimited;
+        public bool ShowNextUnlimited { get => showNextUnlimited; set { showNextUnlimited = value; OnPropertyChanged(nameof(showNextUnlimited)); } }  //User setted number of ShowNext hints in PlaySettingsPage
+
+        private bool solveNextUnlimited;
+        public bool SolveNextUnlimited { get => solveNextUnlimited; set { solveNextUnlimited = value; OnPropertyChanged(nameof(solveNextUnlimited)); } } //User setted number of SolveNext hints in PlaySettingsPage
         public long Time { get; set; }  //Amount of time spent in PlayPage
         public string DifficultySolved { get; set; }    //Binded to difficulty label in steps
         public List<CellsGrid> StepsList { get; set; }  //StepsList in StepsPage.ListView 
         private CellsGrid indexStepsList;
-        public CellsGrid IndexStepsList { get { return indexStepsList; } set { indexStepsList = value;  OnPropertyChanged(nameof(indexStepsList)); } }   //Index in StepsList    
+        public CellsGrid IndexStepsList { get { return indexStepsList; } set { indexStepsList = value; OnPropertyChanged(nameof(indexStepsList)); } }   //Index in StepsList    
 
         private CellsGrid generatedGrid;
+        public CellsGrid GeneratedGrid { get { return generatedGrid; } set { generatedGrid = value; } }
+
         private Difficulty generatedDifficulty;
         private long timeStart; //When user started in DateTime.UtcNow.Ticks
         private Solver solver;  //Solver instance
@@ -51,8 +59,8 @@ namespace Sudoku.ViewModels
         private PlaySettingsPage playSettingsPage;
         private PlayWinPage playWinPage;
         private PlayLosePage playLosePage;
-        private string SAVEPLAYPATH = "..\\..\\..\\Data\\save.xml";
-        private string SAVESOLVEPATH = "..\\..\\..\\Data\\saveSolve.xml";
+        private readonly string SAVEPLAYPATH = "..\\..\\..\\Data\\save.xml";
+        private readonly string SAVESOLVEPATH = "..\\..\\..\\Data\\saveSolve.xml";
         private string last;
 
         public int IsCorrectUsed { get; set; }  //User used number of IsCorrect hints in PlayPage showed in PlayWinPage or PlayLosePage
@@ -62,7 +70,7 @@ namespace Sudoku.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand DebugSolveAll { get; set; }
-        public ICommand SolveAllCommand { get; set; }   
+        public ICommand SolveAllCommand { get; set; }
         public ICommand ChangePageCommand { get; set; }
         public ICommand ExitCommand { get; set; }
         public ICommand TextBoxMoveCommand { get; set; }
@@ -107,10 +115,11 @@ namespace Sudoku.ViewModels
             playWinPage = new PlayWinPage();
             playLosePage = new PlayLosePage();
 
-            GenerateCommand = new CommandHandler(() =>  {
+            GenerateCommand = new CommandHandler(() =>
+            {
                 CellsMarked.Clear();
-                generator = new Generator(); 
-                generator.Generate(DifficultySet); 
+                generator = new Generator();
+                generator.Generate(DifficultySet);
                 cells = generator.Generated;
                 generatedGrid = generator.Generated.TrueClone();
                 generatedDifficulty = DifficultySet;
@@ -122,10 +131,11 @@ namespace Sudoku.ViewModels
                 ChangePage("Play");
             }, () => true);
 
-            SolveAllCommand = new CommandHandler(() => {
+            SolveAllCommand = new CommandHandler(() =>
+            {
                 if (main.Content is PlayWinPage || main.Content is PlayLosePage || main.Content is PlayPage) solver = new Solver(generatedGrid);
                 else solver = new Solver(cells);
-
+                //solver.debug = true; //delete
                 if (!new Validator(cells.TrueClone()).IsValid())
                 {
                     DifficultySolved = ContentLanguage["INVALIDDIFFICULTY_LABEL"];
@@ -148,25 +158,27 @@ namespace Sudoku.ViewModels
                     }
 
                 StepsList = solver.Steps;
-                ChangePage("Steps"); 
+                ChangePage("Steps");
             }, () => true);
 
             DebugSolveAll = new CommandHandler(() =>
             {
                 solver = new Solver(cells);
+                //solver.debug = true;
                 solver.SolveHard();
                 cells = solver.SolvedGrid;
                 OnPropertyChanged(nameof(Cells));
             }, () => true);
 
             #region Hint commands
-            IsCorrectCommand = new CommandHandler(x => {
+            IsCorrectCommand = new CommandHandler(x =>
+            {
                 CellsMarked.Clear();
                 List<int[]> markedTemp = new List<int[]>();
-                if (x?.ToString() != "unlimited")
+                if (main.Content is PlayPage)
                 {
                     solver = new Solver(generatedGrid);
-                    if(!IsCorrectUnlimited) IsCorrectCount--;
+                    IsCorrectCount--;
                     markedTemp = solver.IsCorrect(cells);
                 }
                 else
@@ -180,30 +192,37 @@ namespace Sudoku.ViewModels
                 }
                 IsCorrectUsed++;
                 OnPropertyChanged(nameof(IsCorrectCount));
-            }, () => IsCorrectCount > 0 || main.Content is SolvePage);
+            }, () => main.Content is SolvePage || IsCorrectUnlimited || IsCorrectCount > 0);
 
-            ShowNextCommand = new CommandHandler(x => {
+            ShowNextCommand = new CommandHandler(x =>
+            {
                 CellsMarked.Clear();
-                int[] index = solver.ShowNext(cells, generatedDifficulty);
+                int[] index;
+                if (main.Content is SolvePage) index = solver.ShowNext(cells, Difficulty.Hard);
+                else index = solver.ShowNext(cells, generatedDifficulty);
                 if (index[0] == -1) return;
                 CellsMarked[index[0], index[1]] = 1;
-                if (!(x?.ToString() == "unlimited" || ShowNextUnlimited)) ShowNextCount--;
+                ShowNextCount--;
                 ShowNextUsed++;
                 OnPropertyChanged(nameof(ShowNextCount));
-            }, () => ShowNextCount > 0 || main.Content is SolvePage);
+            }, () => main.Content is SolvePage || ShowNextUnlimited || ShowNextCount > 0);
 
-            SolveNextCommand = new CommandHandler(x => {
+            SolveNextCommand = new CommandHandler(x =>
+            {
                 CellsMarked.Clear();
-                int[] index = solver.ShowNext(cells, generatedDifficulty);
+                int[] index;
+                if (main.Content is SolvePage) index = solver.ShowNext(cells, Difficulty.Hard);
+                else index = solver.ShowNext(cells, generatedDifficulty);
                 if (index[0] == -1) return;
                 CellsMarked[index[0], index[1]] = 1;
                 cells[index[0], index[1]] = index[2];
-                if (!(x?.ToString() == "unlimited" || SolveNextUnlimited)) SolveNextCount--;
+                SolveNextCount--;
                 SolveNextUsed++;
                 OnPropertyChanged(nameof(SolveNextCount));
-            }, () => SolveNextCount > 0 || main.Content is SolvePage);
+            }, () => main.Content is SolvePage || SolveNextUnlimited || SolveNextCount > 0);
 
-            ClearHintsCommand = new CommandHandler(() => {
+            ClearHintsCommand = new CommandHandler(() =>
+            {
                 CellsMarked.Clear();
             }, () => true);
             #endregion
@@ -212,40 +231,47 @@ namespace Sudoku.ViewModels
             ChangePageCommand = new CommandHandler(x => ChangePage(x), () => true);
             ExitCommand = new CommandHandler(() => Closing(), () => true);
 
-            LanguageChangeCommand = new CommandHandler(() => { 
-                ContentLanguage.ChangeLanguage(); 
-                TooltipLanguage.ChangeLanguage(); 
+            LanguageChangeCommand = new CommandHandler(() =>
+            {
+                ContentLanguage.ChangeLanguage();
+                TooltipLanguage.ChangeLanguage();
             }, () => true);
 
-            ContinueCommand = new CommandHandler(() => { 
-                LoadState(SAVEPLAYPATH); 
+            ContinueCommand = new CommandHandler(() =>
+            {
+                LoadState(SAVEPLAYPATH);
             }, () => true);
 
-            SaveSolveCommand = new CommandHandler(() => { 
-                SaveState(SAVESOLVEPATH, "Solve");  
+            SaveSolveCommand = new CommandHandler(() =>
+            {
+                SaveState(SAVESOLVEPATH, "Solve");
             }, () => true);
 
-            LoadSolveCommand = new CommandHandler(() => {
+            LoadSolveCommand = new CommandHandler(() =>
+            {
                 LoadState(SAVESOLVEPATH);
                 OnPropertyChanged(nameof(Cells));
             }, () => true);
 
-            LeaveStepsPageCommand = new CommandHandler(() => {
-                cells.Clear();
-                if (last == "Play")
+            LeaveStepsPageCommand = new CommandHandler(() =>
+            {
+                if (last == "Play" || last == "PlayWin" || last == "PlayLose")
                 {
+                    cells.Clear();
                     IsCorrectCount = 0;
                     ShowNextCount = 0;
                     SolveNextCount = 0;
                     IsCorrectUsed = 0;
                     ShowNextUsed = 0;
                     SolveNextUsed = 0;
-                    SaveState(SAVEPLAYPATH,"PlaySettings");
+                    SaveState(SAVEPLAYPATH, "PlaySettings");
+                    ChangePage("MainMenu");
                 }
-                ChangePage("MainMenu");
+                else ChangePage("Solve");
             }, () => true);
 
-            LeaveCommand = new CommandHandler(() => {
+            LeaveCommand = new CommandHandler(() =>
+            {
                 SaveState(SAVEPLAYPATH);
                 ChangePage("MainMenu");
             }, () => true);
@@ -280,8 +306,9 @@ namespace Sudoku.ViewModels
         /// <param name="page">Name of the page to change to</param>
         public void ChangePage(object page)
         {
+            CellsMarked.Clear();
             last = pageDictionaryReverse[main.Content];
-            if (page.ToString() == "Solve" && last != "Solve") cells.Clear();
+            if (page.ToString() == "Solve" && last != "Solve" && last != "Steps") cells.Clear();
             if (page.ToString() == "Steps") indexStepsList = StepsList.Last();
             if (page.ToString() == "PlaySettings")
             {
@@ -302,7 +329,7 @@ namespace Sudoku.ViewModels
         public void Closing()
         {
             if (main.Content is PlayPage) SaveState(SAVEPLAYPATH);
-            
+
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -340,9 +367,15 @@ namespace Sudoku.ViewModels
             if (Time != 0 || timeStart != 0)
                 element.Element("time").Value = (Time + DateTime.UtcNow.Ticks - timeStart).ToString();
 
-            element.Element("correct").Value = IsCorrectCount.ToString();
-            element.Element("show").Value = ShowNextCount.ToString();
-            element.Element("solve").Value = SolveNextCount.ToString();
+            if (IsCorrectUnlimited) element.Element("correct").Value = (-1).ToString();
+            else element.Element("correct").Value = IsCorrectCount.ToString();
+
+            if (ShowNextUnlimited) element.Element("show").Value = (-1).ToString();
+            else element.Element("show").Value = ShowNextCount.ToString();
+
+            if (SolveNextUnlimited) element.Element("solve").Value = (-1).ToString();
+            else element.Element("solve").Value = SolveNextCount.ToString();
+
             element.Element("next").Value = nextPage;
 
             element.Element("correctused").Value = IsCorrectUsed.ToString();
@@ -378,6 +411,10 @@ namespace Sudoku.ViewModels
             ShowNextUsed = int.Parse(element.Element("showused").Value);
             SolveNextUsed = int.Parse(element.Element("solveused").Value);
 
+            if (IsCorrectCount == -1) IsCorrectUnlimited = true;
+            if (ShowNextCount == -1) ShowNextUnlimited = true;
+            if (SolveNextCount == -1) SolveNextUnlimited = true;
+
             int x = 0;
             int y = 0;
             foreach (var item in temp)
@@ -407,16 +444,16 @@ namespace Sudoku.ViewModels
             if (tempGrid.Count > 20 && path == SAVEPLAYPATH) generatedDifficulty = new Solver(tempGrid).GetDifficulty();
             cells = tempGrid.Clone();
             solver.Grid = cells.TrueClone();
-            if(cells.Count != 0) solver.SolveHard();    //When is cells clear it takes long time
-            timeStart = DateTime.UtcNow.Ticks;          
+            if (cells.Count != 0) solver.SolveHard();    //When is cells clear it takes long time
+            timeStart = DateTime.UtcNow.Ticks;
             ChangePage(element.Element("next").Value);
         }
 
         /// <summary>
         /// Checks if grid is solved and changes to PlayWinPage if Solved and PlayLosePage if was not solved.
         /// </summary>
-        public void IsWinned() 
-        { 
+        public void IsWinned()
+        {
             if (!(main.Content is PlayPage)) return;
             Time += DateTime.UtcNow.Ticks - timeStart;
             if (solver.IsSolved()) ChangePage("PlayWin");

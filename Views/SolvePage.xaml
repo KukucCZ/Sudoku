@@ -84,7 +84,8 @@
             <Button Content="{Binding ContentLanguage[SHOWNEXT_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SHOWNEXT_BUTTON]}" Command="{Binding ShowNextCommand}" CommandParameter="unlimited"/>
             <Button Content="{Binding ContentLanguage[SOLVENEXT_BUTTON]}"   ToolTip="{Binding TooltipLanguage[SOLVENEXT_BUTTON]}" Command="{Binding SolveNextCommand}" CommandParameter="unlimited"/>
             <Button Grid.Row="2" Content="{Binding ContentLanguage[CLEARHINTS_BUTTON]}"   ToolTip="{Binding TooltipLanguage[CLEARHINTS_BUTTON]}" Command="{Binding ClearHintsCommand}"/>
-            <Button Content="{Binding ContentLanguage[SOLVEALL_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SOLVEALL_BUTTON]}"    Command="{Binding SolveAllCommand}"/>
+            <Button Content="{Binding ContentLanguage[SOLVEALL_BUTTON]}"    ToolTip="{Binding TooltipLanguage[SOLVEALL_BUTTON]}"    Command="{Binding DebugSolveAll}"/>
+            <Button Content="{Binding ContentLanguage[STEPS_BUTTON]}"    ToolTip="{Binding TooltipLanguage[STEPS_BUTTON]}"    Command="{Binding SolveAllCommand}"/>
         </StackPanel>
 
     </Grid>

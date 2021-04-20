@@ -49,6 +49,12 @@ namespace Sudoku.Views
                     binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
                     binding.Mode = BindingMode.OneWay;
                     textBox.SetBinding(IsManipulationEnabledProperty, binding);
+                    
+                    binding = new Binding("GeneratedGrid[" + xIndex + "-" + yIndex + "]");         //Binding for read only
+                    binding.Converter = new Other.ReadOnlyConverter();
+                    binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    binding.Mode = BindingMode.OneWay;
+                    textBox.SetBinding(IsEnabledProperty, binding);
 
                     textBox.Margin = new Thickness(-0.1);
                     textBox.VerticalAlignment = VerticalAlignment.Stretch;

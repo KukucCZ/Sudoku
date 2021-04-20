@@ -10,7 +10,7 @@ using System.Windows.Data;
 
 namespace Sudoku.Models
 {
-    class CellsGrid : INotifyPropertyChanged
+    public class CellsGrid : INotifyPropertyChanged
     {
         private int[,] grid;
         public int Count
