@@ -22,8 +22,8 @@ namespace Sudoku.Models
             random = new Random();
 
             XElement element;
-            //using (Stream reader = new FileStream("..\\..\\..\\Data\\solved.xml", FileMode.Open))
-            using (Stream reader = new FileStream(".\\Data\\solved.xml", FileMode.Open))  //Only for testing
+
+            using (Stream reader = new FileStream(".\\Data\\solved.xml", FileMode.Open))
             {
                 element = XElement.Load(reader);
             }
