@@ -23,7 +23,7 @@ namespace Sudoku.Models
 
             XElement element;
             //using (Stream reader = new FileStream("..\\..\\..\\Data\\solved.xml", FileMode.Open))
-            using (Stream reader = new FileStream("C:\\Users\\KukucCZ\\OneDrive\\Programování\\C#\\Win\\Sudoku\\Sudoku\\Data\\solved.xml", FileMode.Open))  //Only for testing
+            using (Stream reader = new FileStream(".\\Data\\solved.xml", FileMode.Open))  //Only for testing
             {
                 element = XElement.Load(reader);
             }
