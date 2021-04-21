@@ -59,8 +59,8 @@ namespace Sudoku.ViewModels
         private PlaySettingsPage playSettingsPage;
         private PlayWinPage playWinPage;
         private PlayLosePage playLosePage;
-        private readonly string SAVEPLAYPATH = "..\\..\\..\\Data\\save.xml";
-        private readonly string SAVESOLVEPATH = "..\\..\\..\\Data\\saveSolve.xml";
+        private readonly string SAVEPLAYPATH = ".\\Data\\save.xml";
+        private readonly string SAVESOLVEPATH = ".\\Data\\saveSolve.xml";
         private string last;
 
         public int IsCorrectUsed { get; set; }  //User used number of IsCorrect hints in PlayPage showed in PlayWinPage or PlayLosePage
@@ -103,8 +103,8 @@ namespace Sudoku.ViewModels
 
             solver = new Solver(cells);
 
-            ContentLanguage = new LanguageIndexer("..\\..\\..\\Data\\contentLanguages.xml");
-            TooltipLanguage = new LanguageIndexer("..\\..\\..\\Data\\tooltipLanguages.xml");
+            ContentLanguage = new LanguageIndexer(".\\Data\\contentLanguages.xml");
+            TooltipLanguage = new LanguageIndexer(".\\Data\\tooltipLanguages.xml");
 
             mainMenuPage = new MainMenuPage();
             testPage = new TestPage();
@@ -444,7 +444,7 @@ namespace Sudoku.ViewModels
             if (tempGrid.Count > 20 && path == SAVEPLAYPATH) generatedDifficulty = new Solver(tempGrid).GetDifficulty();
             cells = tempGrid.Clone();
             solver.Grid = cells.TrueClone();
-            if (cells.Count != 0) solver.SolveHard();    //When is cells clear it takes long time
+            //if (cells.Count != 0) solver.SolveHard();    //When is cells clear it takes long time
             timeStart = DateTime.UtcNow.Ticks;
             ChangePage(element.Element("next").Value);
         }
