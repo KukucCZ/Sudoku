@@ -80,7 +80,7 @@
                 <Label Grid.Row="5" HorizontalAlignment="Center" Content="4" Grid.Column="4"/>
                 <CheckBox Grid.Row="5" Grid.RowSpan="2" Content="{Binding ContentLanguage[UNLIMITED_LABEL]}" ToolTip="{Binding TooltipLanguage[UNLIMITED_LABEL]}" Grid.Column="5" IsChecked="{Binding ShowNextUnlimited}"/>
                 <Slider Width="360" Grid.Row="6" IsEnabled="{Binding ShowNextUnlimited, Mode=OneWay, Converter={StaticResource InverseConverter}}" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ShowNextCount}"/>
-                
+
                 <Label Grid.Row="7" Grid.ColumnSpan="6" HorizontalAlignment="Center" Content="{Binding ContentLanguage[NEXTCELL_LABEL]}" ToolTip="{Binding TooltipLanguage[NEXTCELL_LABEL]}" ToolTipService.InitialShowDelay="300"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="0"/>
                 <Label Grid.Row="8" HorizontalAlignment="Center" Content="1" Grid.Column="1"/>
@@ -91,6 +91,6 @@
                 <Slider Width="360" Grid.Row="9" IsEnabled="{Binding SolveNextUnlimited, Mode=OneWay, Converter={StaticResource InverseConverter}}" Grid.ColumnSpan="5" Minimum="0" Maximum="4" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding SolveNextCount}" Margin="0,0,0,8"/>
             </Grid>
         </Border>
-        <Button Width="150" Content="Generate" Command="{Binding GenerateCommand}"/>
+        <Button Width="150" Content="{Binding ContentLanguage[GENERATE_BUTTON]}" ToolTip="{Binding TooltipLanguage[GENERATE_BUTTON]}" Command="{Binding GenerateCommand}"/>
     </StackPanel>
 </Page>
